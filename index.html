@@ -1,176 +1,770 @@
 <!DOCTYPE html>
-
 <html lang="it">
 <head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>PicoCards</title>
-<style>
-    body {
-      margin: 0;
-      font-family: 'Segoe UI', sans-serif;
-      background-color: #d2f9d3;
-      color: #333;
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="PicoCards - Il tuo negozio TCG/OCG a Mirandola. Carte singole, booster pack, spedizioni 24/48h in tutta Italia.">
+  <title>PicoCards — Il tuo negozio TCG</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+  <style>
+    *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+
+    :root {
+      --bg:       #06061a;
+      --bg2:      #0b0b24;
+      --purple:   #7c3aed;
+      --purple-l: #a855f7;
+      --pink:     #db2777;
+      --gold:     #f59e0b;
+      --green:    #10b981;
+      --blue:     #3b82f6;
+      --text:     #e2e8f0;
+      --text-m:   #94a3b8;
+      --text-d:   #475569;
+      --border:   rgba(124,58,237,0.25);
+      --card-bg:  rgba(255,255,255,0.03);
+      --cm:       #1a9c3e;
+      --vt:       #09b1ba;
+      --ct-b:     #4f70e2;
+      --ct-o:     #f97316;
     }
 
-    .content {
-      max-width: 1000px;
-      margin: auto;
-      padding: 40px 20px;
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Poppins', system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      overflow-x: hidden;
+      line-height: 1.6;
+    }
+
+    /* ── CANVAS ──────────────────────────────── */
+    #particles {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      opacity: 0.45;
+    }
+
+    .wrapper { position: relative; z-index: 1; }
+
+    /* ── NAV ─────────────────────────────────── */
+    .nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 200;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.9rem 2.5rem;
+      background: rgba(6,6,26,0.78);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav-brand {
+      font-size: 1.35rem;
+      font-weight: 900;
+      letter-spacing: -0.5px;
+      background: linear-gradient(90deg, var(--purple-l), var(--pink));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .nav-menu {
+      list-style: none;
+      display: flex;
+      gap: 2rem;
+    }
+
+    .nav-menu a {
+      color: var(--text-m);
+      text-decoration: none;
+      font-size: 0.88rem;
+      font-weight: 500;
+      letter-spacing: 0.04em;
+      transition: color 0.25s;
+    }
+    .nav-menu a:hover { color: var(--text); }
+
+    /* ── HERO ────────────────────────────────── */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 7rem 2rem 5rem;
+      background: radial-gradient(ellipse 80% 55% at 50% 8%, rgba(124,58,237,0.28) 0%, transparent 70%);
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: rgba(124,58,237,0.12);
+      border: 1px solid rgba(124,58,237,0.38);
+      border-radius: 100px;
+      padding: 0.35rem 1.2rem;
+      font-size: 0.76rem;
+      font-weight: 600;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--purple-l);
+      margin-bottom: 2rem;
+    }
+
+    .hero-title {
+      font-size: clamp(4.5rem, 14vw, 10rem);
+      font-weight: 900;
+      line-height: 0.95;
+      letter-spacing: -3px;
+      margin-bottom: 1.2rem;
+      background: linear-gradient(135deg,
+        #c084fc 0%, #f472b6 20%, #fb923c 40%,
+        #facc15 60%, #34d399 80%, #c084fc 100%);
+      background-size: 200% 200%;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: holo 6s linear infinite;
+      filter: drop-shadow(0 0 40px rgba(168,85,247,0.35));
+    }
+
+    @keyframes holo {
+      0%   { background-position: 0% 50%; }
+      50%  { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    .hero-sub {
+      font-size: clamp(0.85rem, 2.5vw, 1.1rem);
+      color: var(--text-m);
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      font-weight: 400;
+      margin-bottom: 3rem;
+    }
+
+    .hero-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      background: linear-gradient(135deg, var(--purple), var(--pink));
+      color: white;
+      text-decoration: none;
+      padding: 0.9rem 2.2rem;
+      border-radius: 100px;
+      font-weight: 700;
+      font-size: 0.92rem;
+      letter-spacing: 0.05em;
+      box-shadow: 0 0 30px rgba(124,58,237,0.5);
+      transition: transform 0.25s, box-shadow 0.25s;
+    }
+    .hero-cta:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 0 55px rgba(124,58,237,0.75);
+    }
+
+    /* small floating card decorations in hero */
+    .hero-cards {
+      display: flex;
+      gap: 1.2rem;
+      margin-top: 4rem;
+      opacity: 0.35;
+    }
+    .hcard {
+      width: 38px;
+      height: 53px;
+      border: 1.5px solid rgba(168,85,247,0.6);
+      border-radius: 5px;
+      animation: floatCard 3s ease-in-out infinite;
+    }
+    .hcard:nth-child(2) { animation-delay: 0.5s; border-color: rgba(244,114,182,0.6); }
+    .hcard:nth-child(3) { animation-delay: 1s;   border-color: rgba(251,146,60,0.6); }
+    .hcard:nth-child(4) { animation-delay: 1.5s; border-color: rgba(52,211,153,0.6); }
+    .hcard:nth-child(5) { animation-delay: 2s;   border-color: rgba(250,204,21,0.6); }
+    @keyframes floatCard {
+      0%,100% { transform: translateY(0) rotate(-4deg); }
+      50%      { transform: translateY(-12px) rotate(4deg); }
+    }
+
+    /* ── COMMON SECTION ─────────────────────── */
+    .section { padding: 6rem 2rem; }
+    .container { max-width: 1100px; margin: 0 auto; }
+
+    .sec-label {
+      font-size: 0.74rem;
+      font-weight: 600;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: var(--purple-l);
+      margin-bottom: 0.6rem;
+    }
+
+    .sec-heading {
+      font-size: clamp(1.9rem, 4vw, 2.8rem);
+      font-weight: 800;
+      line-height: 1.1;
+      letter-spacing: -1px;
+      margin-bottom: 1.5rem;
+    }
+
+    .grad { background: linear-gradient(90deg,var(--purple-l),var(--pink)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
+
+    .divider {
+      width: 56px;
+      height: 3px;
+      background: linear-gradient(90deg, var(--purple), var(--pink));
+      border-radius: 3px;
+      margin-bottom: 2rem;
+    }
+
+    /* ── ABOUT ───────────────────────────────── */
+    #about {
+      background: linear-gradient(180deg, transparent, rgba(124,58,237,0.04), transparent);
+      border-top: 1px solid rgba(255,255,255,0.04);
+    }
+
+    .about-body {
+      font-size: 1.05rem;
+      color: var(--text-m);
+      max-width: 760px;
+      line-height: 1.9;
+    }
+    .about-body p + p { margin-top: 1.2rem; }
+
+    .features {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 1rem;
+      margin: 2.5rem 0;
+    }
+
+    .feat {
+      display: flex;
+      align-items: flex-start;
+      gap: 1rem;
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 1.25rem 1.4rem;
+      transition: border-color 0.3s, background 0.3s, transform 0.3s;
+    }
+    .feat:hover {
+      border-color: rgba(124,58,237,0.55);
+      background: rgba(124,58,237,0.07);
+      transform: translateY(-3px);
+    }
+    .feat-icon { font-size: 1.4rem; flex-shrink: 0; line-height: 1; }
+    .feat-text { font-size: 0.92rem; color: var(--text-m); line-height: 1.5; }
+
+    .motto {
+      margin-top: 2.5rem;
+      padding: 2.2rem 2.5rem;
+      background: rgba(124,58,237,0.07);
+      border: 1px solid var(--border);
+      border-radius: 20px;
       text-align: center;
     }
-
-    h2 {
-      text-transform: uppercase;
-      color: #555;
-      letter-spacing: 2px;
+    .motto p { font-size: 1.08rem; color: var(--text-m); max-width: 680px; margin: 0 auto 1rem; }
+    .motto-slogan {
+      font-size: 1.45rem;
+      font-weight: 800;
+      background: linear-gradient(90deg, var(--purple-l), var(--pink), var(--gold));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
     }
 
-    .intro p {
-      line-height: 1.6;
-      font-size: 1.1em;
+    /* ── MARKETPLACE ─────────────────────────── */
+    #shop { border-top: 1px solid rgba(255,255,255,0.05); }
+
+    .mkt-intro {
+      font-size: 0.98rem;
+      color: var(--text-m);
+      margin-bottom: 0;
+      max-width: 520px;
     }
 
-    .intro strong {
-      color: #3b4cca;
+    .mkt-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+      gap: 1.5rem;
+      margin-top: 2.5rem;
     }
 
-    .icon-section {
+    .mkt-card {
       display: flex;
-      flex-wrap: wrap;
+      flex-direction: column;
+      align-items: center;
       justify-content: center;
-      gap: 30px;
-      margin-top: 40px;
-    }
-
-    .icon-box {
-      background-color: #eaffea;
-      padding: 20px;
-      border-radius: 12px;
-      width: 250px;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-      transition: transform 0.2s;
-    }
-
-    .icon-box:hover {
-      transform: scale(1.05);
-    }
-
-    .icon-box img {
-      width: 60px;
-      margin-bottom: 15px;
-    }
-
-    .icon-box h3 {
-      color: #3b4cca;
-    }
-
-    footer {
-      background-color: #c8f4cc;
-      padding: 40px 20px;
-      display: flex;
-      justify-content: space-between;
-      flex-wrap: wrap;
-    }
-
-    .footer-section {
-      flex: 1;
-      min-width: 250px;
-      margin: 10px 0;
-    }
-
-    .footer-section h4 {
-      color: #555;
-      margin-bottom: 10px;
-      text-transform: uppercase;
-    }
-
-    .footer-section a {
-      display: block;
-      color: #333;
+      text-align: center;
       text-decoration: none;
-      margin-bottom: 5px;
+      border-radius: 24px;
+      padding: 3rem 2rem;
+      min-height: 260px;
+      gap: 1.1rem;
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.38s cubic-bezier(.175,.885,.32,1.275), box-shadow 0.38s;
     }
 
-    .footer-section a:hover {
-      text-decoration: underline;
+    /* shimmer overlay */
+    .mkt-card::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.06) 50%, rgba(255,255,255,0) 100%);
+      opacity: 0;
+      transition: opacity 0.38s;
+    }
+    .mkt-card:hover::after { opacity: 1; }
+    .mkt-card:hover { transform: translateY(-12px) scale(1.02); }
+
+    /* Cardmarket */
+    .mkt-cm {
+      background: linear-gradient(145deg, #071a0e, #0d3320, #145c2c);
+      border: 1px solid rgba(26,156,62,0.3);
+    }
+    .mkt-cm:hover { box-shadow: 0 25px 60px rgba(26,156,62,0.38); border-color: rgba(26,156,62,0.7); }
+
+    /* Vinted */
+    .mkt-vt {
+      background: linear-gradient(145deg, #040f10, #052029, #073340);
+      border: 1px solid rgba(9,177,186,0.3);
+    }
+    .mkt-vt:hover { box-shadow: 0 25px 60px rgba(9,177,186,0.38); border-color: rgba(9,177,186,0.7); }
+
+    /* CardTrader */
+    .mkt-ct {
+      background: linear-gradient(145deg, #05081a, #0d1230, #111c44);
+      border: 1px solid rgba(79,112,226,0.3);
+    }
+    .mkt-ct:hover { box-shadow: 0 25px 60px rgba(79,112,226,0.38); border-color: rgba(79,112,226,0.7); }
+
+    /* Platform logos */
+    .logo-cm { display: flex; align-items: center; gap: 11px; }
+    .logo-cm-badge {
+      width: 52px; height: 52px;
+      background: var(--cm);
+      border-radius: 11px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.35rem; font-weight: 900; color: white; flex-shrink: 0;
+    }
+	
+    .logo-cm-word { font-size: 2.5rem; font-weight: 800; color: white; letter-spacing: -2px; line-height: 1; }
+    .logo-cm-word span { color: var(--cm); }
+
+    .logo-vt { font-size: 3.2rem; font-weight: 900; color: var(--vt); letter-spacing: -2px; line-height: 1; }
+
+    .logo-ct { font-size: 2.4rem; font-weight: 900; letter-spacing: -1px; line-height: 1; }
+    .ct-c { color: var(--ct-b); }
+    .ct-t { color: var(--ct-o); }
+
+    .mkt-desc { font-size: 0.87rem; color: var(--text-m); max-width: 220px; line-height: 1.5; }
+
+    .mkt-btn {
+      display: inline-block;
+      padding: 0.55rem 1.4rem;
+      border-radius: 100px;
+      font-size: 0.81rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      pointer-events: none;
+    }
+    .btn-cm { background: var(--cm);   color: white; }
+    .btn-vt { background: var(--vt);   color: white; }
+    .btn-ct { background: var(--ct-b); color: white; }
+
+    /* ── CONTACT ─────────────────────────────── */
+    #contact {
+      background: linear-gradient(180deg, rgba(124,58,237,0.06), transparent);
+      border-top: 1px solid rgba(255,255,255,0.05);
     }
 
-    @media (max-width: 768px) {
-      .icon-section {
-        flex-direction: column;
-        align-items: center;
-      }
-
-      footer {
-        flex-direction: column;
-        align-items: center;
-      }
+    .contact-hours {
+      display: inline-block;
+      font-size: 0.95rem;
+      color: var(--text-m);
+      margin-bottom: 2.5rem;
+      padding: 1rem 1.6rem;
+      background: rgba(124,58,237,0.07);
+      border-left: 3px solid var(--purple);
+      border-radius: 0 12px 12px 0;
+      max-width: 620px;
+      line-height: 1.7;
     }
-  
-.logo-banner {
-  background: linear-gradient(to bottom, #a8f0b2, #d2f9d3);
-  padding: 100px 0;
-  text-align: center;
-}
+    .contact-hours strong { color: var(--text); }
 
-.logo-banner img {
-  width: 300px;
-  height: auto;
-}
-</style>
+    .contact-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1.2rem;
+      margin-bottom: 3.5rem;
+    }
+
+    .cinfo {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 1.5rem;
+      transition: all 0.3s;
+    }
+    .cinfo:hover {
+      background: rgba(124,58,237,0.08);
+      border-color: rgba(124,58,237,0.5);
+      transform: translateY(-3px);
+    }
+    .cinfo-icon { font-size: 1.6rem; margin-bottom: 0.6rem; display: block; }
+    .cinfo-label {
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--purple-l);
+      margin-bottom: 0.4rem;
+    }
+    .cinfo-val { font-size: 0.95rem; font-weight: 600; color: var(--text); line-height: 1.45; }
+    .cinfo-val a { color: inherit; text-decoration: none; }
+    .cinfo-val a:hover { color: var(--purple-l); }
+
+    /* Social */
+    .social-title { font-size: 1.3rem; font-weight: 700; margin-bottom: 1.2rem; }
+
+    .social-row { display: flex; flex-wrap: wrap; gap: 0.8rem; }
+
+    .soc-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.6rem 1.3rem;
+      border-radius: 100px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.1);
+      font-size: 0.88rem;
+      font-weight: 500;
+      color: var(--text-m);
+      text-decoration: none;
+      transition: all 0.3s;
+      cursor: default;
+    }
+    .soc-pill.link { cursor: pointer; }
+    .soc-pill.link:hover {
+      background: rgba(124,58,237,0.15);
+      border-color: rgba(124,58,237,0.4);
+      color: var(--text);
+    }
+    .soc-pill.wip { opacity: 0.42; }
+    .wip-tag { font-size: 0.68rem; color: var(--text-d); }
+
+    /* ── FOOTER ──────────────────────────────── */
+    footer {
+      border-top: 1px solid rgba(255,255,255,0.05);
+      padding: 2.2rem 2rem;
+      text-align: center;
+      color: var(--text-d);
+      font-size: 0.82rem;
+      line-height: 2;
+    }
+
+    /* ── SCROLL REVEAL ───────────────────────── */
+    .fu {
+      opacity: 0;
+      transform: translateY(26px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    .fu.vis { opacity: 1; transform: none; }
+
+    /* ── RESPONSIVE ──────────────────────────── */
+    @media (max-width: 640px) {
+      .nav-menu { display: none; }
+      .hero-title { letter-spacing: -2px; }
+      .hero-cards { display: none; }
+      .logo-cm { flex-direction: column; }
+    }
+  </style>
 </head>
-<body><div class="logo-banner"><img alt="Logo PicoCards" src="picocardscastello.png"/></div>
-<header>
-<!-- Logo già incluso nell'immagine di sfondo -->
-</header>
-<section class="content">
-<h2>Chi siamo</h2>
-<div class="intro">
-<p><strong>Benvenuto su PicoCards</strong>, il punto di riferimento per i veri collezionisti e giocatori! Se sei un appassionato del mondo TCG/OCG, sei nel posto giusto. Su <em>PicoCards</em> trovi un’ampia selezione di <strong>carte di tutti i tipi</strong>, dai pezzi più rari e collezionabili, alle ultime novità del Gioco di Carte Collezionabili (TCG).</p>
-<p>Che tu sia un collezionista alla ricerca della carta perfetta o un giocatore competitivo in cerca del mazzo vincente o per fare qualche torneo in locale, qui troverai ciò che fa per te!</p>
-<ul style="list-style: none; padding: 0;">
-<li>✉️ <strong>Carte singole, booster pack, set speciali</strong></li>
-<li>🚚 <strong>Consegna rapida e sicura in tutta Italia, con spedizioni 24/48h!</strong></li>
-<li>💳 <strong>Pagamenti sicuri e supporto clienti dedicato</strong></li>
-<li>✔ <strong>Prodotti selezionati con cura e autenticità garantita</strong></li>
-</ul>
-<p>Unisciti alla nostra community di fan e collezionisti: su <em>PicoCards</em>, ogni carta racconta una storia, ogni acquisto è una nuova avventura. <strong>Gotta collect 'em all!</strong></p>
-</div>
-<div class="icon-section">
-<div class="icon-box">
-<a href="https://www.vinted.it/member/150964393"><img alt="Vinted" src="v.png"/>
-<h3>Vinted</h3>
-<p><a href="https://www.vinted.it/member/150964393">Clicca il logo per andare al profilo</a></p>
-</div>
-<div class="icon-box">
-<a href="https://www.cardmarket.com/it/Pokemon/Users/Giodoneh"><img alt="CardMarket" src="cm.png"/>
-<h3>Cardmarket</h3>
-<p><a href="https://www.cardmarket.com/it/Pokemon/Users/Giodoneh">Clicca il logo per andare al profilo</a></p>
-</div>
-<div class="icon-box">
-<a href="https://www.cardtrader.com/it/users/giodino-ascari"><img alt="CardTrader" src="ct.jpg"/>
-<h3>CardTrader</h3>
-<p><a href="https://www.cardtrader.com/it/users/giodino-ascari">Clicca il logo per andare al profilo</a></p>
-</div>
-</div>
-</section>
-<footer>
-<div class="footer-section">
-<h4>Contatti</h4>
-<p>Per le chiamate, siamo disponibili dal Mar–Ven e Domenica dalle 09:30 - 12:30 / 15:30 - 19:30</p>
-<p>📱 +39 351 3550220</p>
-<p>💬 WhatsApp: +39 331 1158706</p>
-<p>📨 Telegram: @picocards</p>
-<p>🏠 Vienici a trovare: Via Giovanni Pico 21, Mirandola (MO) 41037</p>    
-</div>
-<div class="footer-section">
-<h4>Seguici sui social</h4>
-<a href="#">📸 Instagram (in costruzione)</a>
-<a href="#">📘 TikTok (in costruzione)</a>
-<a href="#">📘 Facebook (in costruzione)</a>    
-<a href=https://www.youtube.com/@ImpossibileNonCinghiare>▶️ YouTube</a>
-</div>
-</footer>
+<body>
+
+<canvas id="particles"></canvas>
+
+<div class="wrapper">
+
+  <!-- NAV -->
+  <nav class="nav">
+    <span class="nav-brand">PicoCards</span>
+    <ul class="nav-menu">
+      <li><a href="#about">Il Negozio</a></li>
+      <li><a href="#shop">Marketplace</a></li>
+      <li><a href="#contact">Contatti</a></li>
+    </ul>
+  </nav>
+  <style>.logo-banner img {
+  width: 400px;
+  height: auto;
+}</style>
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-badge">✦ TCG ✦</div>
+	<div class="logo-banner"><img alt="Logo PicoCards" src="picocardscastello.png"/></div>
+    <h1 class="hero-title"><FONT face="Verdana">PicoCards</FONT></h1>
+    <p class="hero-sub">Il punto di riferimento per collezionisti e giocatori</p>
+    <a href="#about" class="hero-cta">
+      Scopri di più
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="12" y1="5" x2="12" y2="19"/><polyline points="19 12 12 19 5 12"/>
+      </svg>
+    </a>
+    <div class="hero-cards">
+      <div class="hcard"></div>
+      <div class="hcard"></div>
+      <div class="hcard"></div>
+      <div class="hcard"></div>
+      <div class="hcard"></div>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section id="about" class="section">
+    <div class="container">
+      <p class="sec-label fu">✦ Chi siamo</p>
+      <h2 class="sec-heading fu">Il tuo negozio <span class="grad">TCG</span> di fiducia</h2>
+      <div class="divider fu"></div>
+
+      <div class="about-body fu">
+        <p>Benvenuto in <span class="grad">PicoCards</span>, il punto di riferimento per i veri collezionisti e giocatori! Se sei un appassionato del mondo <span class="grad">TCG</span> (Trading Card Game), sei nel posto giusto. In <span class="grad">PicoCards</span> trovi un'ampia selezione di carte di tutti i tipi, dai pezzi più rari e collezionabili, alle ultime novità del <span class="grad">Gioco di Carte Collezionabili</span>!</p>
+        <p>Che tu sia un <span class="grad">collezionista</span> alla ricerca della carta perfetta o un giocatore <span class="grad">competitivo</span> in cerca del mazzo vincente o per fare qualche <span class="grad">torneo</span> in locale, qui da noi troverai <span class="grad">tutto</span> ciò che fa per te!</p>
+      </div>
+
+      <div class="features">
+        <div class="feat fu">
+          <span class="feat-icon">✉️</span>
+          <span class="feat-text">Carte singole, booster pack e set speciali</span>
+        </div>
+        <div class="feat fu">
+          <span class="feat-icon">🚚</span>
+          <span class="feat-text">Consegna rapida e sicura in tutta Italia, con spedizioni <span class="grad">24/48h</span>!</span>
+        </div>
+        <div class="feat fu">
+          <span class="feat-icon">💳</span>
+          <span class="feat-text">Pagamenti sicuri e supporto clienti dedicato</span>
+        </div>
+        <div class="feat fu">
+          <span class="feat-icon">✔️</span>
+          <span class="feat-text">Prodotti selezionati con cura e autenticità <span class="grad">garantita</span></span>
+        </div>
+      </div>
+
+      <div class="motto fu">
+        <p>Unisciti alla nostra community di fan e collezionisti, troverai tutti i link e gruppi <span class="grad">whatsapp</span> in fondo alla pagina! E ricorda: in <span class="grad">PicoCards</span>, ogni carta racconta una storia, ogni acquisto è una nuova avventura.</p>
+        <div class="motto-slogan">✨ Gotta collect 'em all! ✨</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MARKETPLACE -->
+  <section id="shop" class="section">
+    <div class="container">
+      <p class="sec-label fu">✦ Dove trovarci online</p>
+      <h2 class="sec-heading fu">I Nostri <span class="grad">Marketplace</span></h2>
+      <div class="divider fu"></div>
+      <p class="mkt-intro fu">Abbiamo anche degli store online, in caso non riesci a venire a trovarci in locale! Clicca in una di queste tre caselle qua sotto per saperne di più.</p>
+
+      <div class="mkt-grid">
+
+        <!-- CARDMARKET -->
+        <a href="https://www.cardmarket.com/it/Pokemon/Users/Giodoneh"
+           target="_blank" rel="noopener" class="mkt-card mkt-cm fu">
+          <div class="logo-cm">
+            <div class="logo-cm-word"><span style="color: green;">Card</span>Market</div>
+          </div>
+          <p class="mkt-desc">Per acquisti veloci e sicuri</p>
+          <span class="mkt-btn btn-cm">Visita il profilo →</span>
+        </a>
+
+        <!-- VINTED -->
+        <a href="https://www.vinted.it/member/150964393"
+           target="_blank" rel="noopener" class="mkt-card mkt-vt fu">
+          <div class="logo-vt">Vinted</div>
+          <p class="mkt-desc">Per acquisti di lotti e offerte speciali / customizzabili</p>
+          <span class="mkt-btn btn-vt">Visita il profilo →</span>
+        </a>
+
+        <!-- CARDTRADER -->
+        <a href="https://www.cardtrader.com/it/users/giodino-ascari"
+           target="_blank" rel="noopener" class="mkt-card mkt-ct fu">
+          <div class="logo-ct">
+            <span class="ct-c">Card</span><span style="color: white;">Trader</span>
+          </div>
+          <p class="mkt-desc">Per acquisti multipli anche fuori Italia</p>
+          <span class="mkt-btn btn-ct">Visita il profilo →</span>
+        </a>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact" class="section">
+    <div class="container">
+      <p class="sec-label fu">✦ Scrivici o vienici a trovare</p>
+      <h2 class="sec-heading fu"><span class="grad">Contatti</span></h2>
+      <div class="divider fu"></div>
+
+      <div class="contact-hours fu">
+        Per le chiamate siamo disponibili:<br><strong>Lunedì </strong><span class="grad">chiuso</span>
+		<br><strong>Martedì </strong>dalle <strong>09:30 – 12:30</strong> &nbsp;/&nbsp; <strong>15:30 – 19:30</strong></strong>
+	    <br><strong>Mercoledì </strong>dalle <strong>09:30 – 12:30</strong> &nbsp;/&nbsp; <strong>15:30 – 19:30</strong></strong>
+		<br><strong>Giovedì </strong>dalle <strong>09:30 – 12:30</strong> &nbsp;/&nbsp; <strong>15:30 – 19:30</strong></strong>
+		<br><strong>Venerdì </strong>dalle <strong>09:30 – 12:30</strong> &nbsp;/&nbsp; <strong>15:30 – 19:30</strong></strong>
+		<br><strong>Sabato </strong><span class="grad">chiuso</span>
+		<br><strong>Domenica </strong>dalle <strong>10:00 – 23:30</strong></strong>
+      </div>
+
+      <div class="contact-grid">
+        <div class="cinfo fu">
+          <span class="cinfo-icon">📱</span>
+          <div class="cinfo-label">Telefono</div>
+          <div class="cinfo-val"><a href="tel:+393513550220"><strong>Luca Malagoli</strong><br><span class="grad">+39 339 688 9432</span></a></div><br>
+		  <div class="cinfo-val"><a href="tel:+393513550220"><strong>Jody Ascari</strong><br><span class="grad">+39 351 355 0220</span></a></div>
+        </div>
+        <div class="cinfo fu">
+          <span class="cinfo-icon">💬</span>
+          <div class="cinfo-label">WhatsApp</div>
+          <div class="cinfo-val"><a href="tel:+393513550220"><strong>Luca Malagoli</strong><br><span class="grad">+39 339 688 9432</span></a></div><br>
+		  <div class="cinfo-val"><a href="tel:+393513550220"><strong>Jody Ascari</strong><br><span class="grad">+39 351 355 0220</span></a></div>
+        </div>
+        <div class="cinfo fu">
+          <span class="cinfo-icon">📨</span>
+          <div class="cinfo-label">E-mail</div>
+          <div class="cinfo-val"><a href="mailto:picocards@gmail.com?subject=Richiesta%20info&body=Ciao,%20vorrei%20avere%20informazioni..." target="_blank">Clicca qui</a></p></a></div>
+        </div>
+        <div class="cinfo fu">
+          <span class="cinfo-icon">🏠</span>
+          <div class="cinfo-label">Indirizzo</div>
+          <div class="cinfo-val">
+            <a href="https://maps.google.com/?q=Via+Giovanni+Pico+21+Mirandola+MO+41037" target="_blank">
+              Via Giovanni Pico, 21<br>Mirandola (MO) 41037
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <h3 class="social-title fu">Seguici sui social</h3>
+      <div class="social-row fu">
+		<a href="https://www.instagram.com/pico.cards/" class="soc-pill link" target="_blank"><span style="color: pink;">📸</span> Instagram</a>
+		<a href="#" class="soc-pill link" target="_blank"><span style="color: yellow;">🎵</span> TikTok</a>
+		<a href="#" class="soc-pill link" target="_blank"><span style="color: lightblue;">📘</span> Facebook</a>
+        <a href="#" class="soc-pill link" target="_blank"><span style="color: red;">▶️</span> YouTube</a>
+		<a href="https://t.me/picocardsit" class="soc-pill link" target="_blank"><span style="color: lightblue;">✈︎</span> Telegram</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <p>&copy; 2026 <strong>PicoCards</strong> &nbsp;·&nbsp; Via Giovanni Pico 21, Mirandola (MO) 41037</p>
+    <p><strong><span style="color: pink;">Every card tells a story</span>&nbsp;&nbsp;</p>
+  </footer>
+
+</div><!-- /wrapper -->
+
+<script>
+/* ── CANVAS: floating card particles ───────────────── */
+(function () {
+  const cvs = document.getElementById('particles');
+  const ctx = cvs.getContext('2d');
+  const COLS = [[124,58,237],[219,39,119],[245,158,11],[16,185,129],[59,130,246]];
+  let W, H, items = [];
+
+  function resize() {
+    W = cvs.width  = window.innerWidth;
+    H = cvs.height = window.innerHeight;
+  }
+
+  function rand(a, b) { return Math.random() * (b - a) + a; }
+
+  function mkItem() {
+    const w = rand(20, 42), h = w * 1.4;
+    return {
+      x: rand(0, W), y: rand(0, H),
+      w, h,
+      vx: rand(-0.4, 0.4), vy: rand(-0.25, 0.25),
+      vr: rand(-0.009, 0.009),
+      r: rand(0, Math.PI * 2),
+      op: rand(0.05, 0.18),
+      c: COLS[Math.floor(Math.random() * COLS.length)]
+    };
+  }
+
+  function rrect(x, y, w, h, r) {
+    ctx.beginPath();
+    ctx.moveTo(x + r, y);
+    ctx.arcTo(x + w, y,     x + w, y + h, r);
+    ctx.arcTo(x + w, y + h, x,     y + h, r);
+    ctx.arcTo(x,     y + h, x,     y,     r);
+    ctx.arcTo(x,     y,     x + w, y,     r);
+    ctx.closePath();
+  }
+
+  function loop() {
+    ctx.clearRect(0, 0, W, H);
+    for (const p of items) {
+      p.x += p.vx; p.y += p.vy; p.r += p.vr;
+      if (p.x < -60)    p.x = W + 60;
+      else if (p.x > W + 60) p.x = -60;
+      if (p.y < -80)    p.y = H + 80;
+      else if (p.y > H + 80) p.y = -80;
+
+      ctx.save();
+      ctx.translate(p.x, p.y);
+      ctx.rotate(p.r);
+
+      const [r, g, b] = p.c;
+      ctx.strokeStyle = `rgba(${r},${g},${b},${p.op})`;
+      ctx.lineWidth = 1.5;
+      rrect(-p.w/2, -p.h/2, p.w, p.h, 3);
+      ctx.stroke();
+
+      ctx.strokeStyle = `rgba(${r},${g},${b},${p.op * 0.4})`;
+      ctx.lineWidth = 0.7;
+      rrect(-p.w/2+3, -p.h/2+3, p.w-6, p.h-6, 2);
+      ctx.stroke();
+
+      ctx.restore();
+    }
+    requestAnimationFrame(loop);
+  }
+
+  window.addEventListener('resize', resize);
+  resize();
+  items = Array.from({ length: 28 }, mkItem);
+  loop();
+})();
+
+/* ── SCROLL REVEAL ──────────────────────────────────── */
+(function () {
+  const els = document.querySelectorAll('.fu');
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (!e.isIntersecting) return;
+      const siblings = [...e.target.parentElement.querySelectorAll('.fu:not(.vis)')];
+      const idx = siblings.indexOf(e.target);
+      setTimeout(() => e.target.classList.add('vis'), Math.max(0, idx) * 75);
+      io.unobserve(e.target);
+    });
+  }, { threshold: 0.1, rootMargin: '0px 0px -30px 0px' });
+  els.forEach(el => io.observe(el));
+})();
+</script>
+
 </body>
 </html>
