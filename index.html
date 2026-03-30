@@ -358,7 +358,7 @@
       display: flex; align-items: center; justify-content: center;
       font-size: 1.35rem; font-weight: 900; color: white; flex-shrink: 0;
     }
-	
+
     .logo-cm-word { font-size: 2.5rem; font-weight: 800; color: white; letter-spacing: -2px; line-height: 1; }
     .logo-cm-word span { color: var(--cm); }
 
@@ -483,6 +483,41 @@
     }
     .fu.vis { opacity: 1; transform: none; }
 
+    /* ── MUSIC BUTTON ───────────────────────── */
+    #music-btn {
+      position: fixed;
+      bottom: 1.6rem;
+      right: 1.6rem;
+      z-index: 300;
+      width: 52px;
+      height: 52px;
+      border-radius: 50%;
+      border: 1px solid var(--border);
+      background: rgba(6,6,26,0.88);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      font-size: 1.3rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 0 20px rgba(124,58,237,0.35);
+      transition: transform 0.25s, box-shadow 0.25s, background 0.25s;
+      color: white;
+    }
+    #music-btn:hover {
+      transform: scale(1.12);
+      box-shadow: 0 0 38px rgba(124,58,237,0.65);
+      background: rgba(124,58,237,0.28);
+    }
+    #music-btn.playing {
+      animation: pulse-btn 2.2s ease-in-out infinite;
+    }
+    @keyframes pulse-btn {
+      0%,100% { box-shadow: 0 0 20px rgba(124,58,237,0.4); }
+      50%      { box-shadow: 0 0 42px rgba(219,39,119,0.7); }
+    }
+
     /* ── RESPONSIVE ──────────────────────────── */
     @media (max-width: 640px) {
       .nav-menu { display: none; }
@@ -502,7 +537,7 @@
   <nav class="nav">
     <span class="nav-brand">PicoCards</span>
     <ul class="nav-menu">
-      <li><a href="#about">Il Negozio</a></li>
+      <li><a href="#about">Chi siamo</a></li>
       <li><a href="#shop">Marketplace</a></li>
       <li><a href="#contact">Contatti</a></li>
     </ul>
@@ -621,12 +656,12 @@
 
       <div class="contact-hours fu">
         Per le chiamate siamo disponibili:<br><strong>Lunedì </strong><span class="grad">chiuso</span>
-		<br><strong>Martedì </strong>dalle <strong>09:30 – 12:30</strong> &nbsp;/&nbsp; <strong>15:30 – 19:30</strong></strong>
-	    <br><strong>Mercoledì </strong>dalle <strong>09:30 – 12:30</strong> &nbsp;/&nbsp; <strong>15:30 – 19:30</strong></strong>
-		<br><strong>Giovedì </strong>dalle <strong>09:30 – 12:30</strong> &nbsp;/&nbsp; <strong>15:30 – 19:30</strong></strong>
-		<br><strong>Venerdì </strong>dalle <strong>09:30 – 12:30</strong> &nbsp;/&nbsp; <strong>15:30 – 19:30</strong></strong>
+		<br><strong>Martedì </strong>dalle <strong>09:30 – 12:30</strong> &nbsp;/&nbsp; <strong>15:30 – 19:30</strong>
+	    <br><strong>Mercoledì </strong>dalle <strong>09:30 – 12:30</strong> &nbsp;/&nbsp; <strong>15:30 – 19:30</strong>
+		<br><strong>Giovedì </strong>dalle <strong>09:30 – 12:30</strong> &nbsp;/&nbsp; <strong>15:30 – 19:30</strong>
+		<br><strong>Venerdì </strong>dalle <strong>09:30 – 12:30</strong> &nbsp;/&nbsp; <strong>15:30 – 19:30</strong>
 		<br><strong>Sabato </strong><span class="grad">chiuso</span>
-		<br><strong>Domenica </strong>dalle <strong>10:00 – 23:30</strong></strong>
+		<br><strong>Domenica </strong>dalle <strong>10:00 – 23:30</strong>
       </div>
 
       <div class="contact-grid">
@@ -645,14 +680,16 @@
         <div class="cinfo fu">
           <span class="cinfo-icon">📨</span>
           <div class="cinfo-label">E-mail</div>
-          <div class="cinfo-val"><a href="mailto:picocards@gmail.com?subject=Richiesta%20info&body=Ciao,%20vorrei%20avere%20informazioni..." target="_blank">Clicca qui</a></p></a></div>
+          <div class="cinfo-val"><a href="mailto:picocards@gmail.com?subject=Richiesta%20info&body=Ciao,%20vorrei%20avere%20informazioni..." target="_blank"><span class="grad"><strong>Clicca qui</strong></span></a>
+		  <br><br> oppure scrivici direttamente a <strong><span class="grad">picocards@gmail.com</span></div>
         </div>
         <div class="cinfo fu">
           <span class="cinfo-icon">🏠</span>
           <div class="cinfo-label">Indirizzo</div>
           <div class="cinfo-val">
             <a href="https://maps.google.com/?q=Via+Giovanni+Pico+21+Mirandola+MO+41037" target="_blank">
-              Via Giovanni Pico, 21<br>Mirandola (MO) 41037
+              Vienici a trovare in<br>
+			<br><span class="grad"><strong>Via Giovanni Pico, 21<br>Mirandola (MO) 41037</strong></span>
             </a>
           </div>
         </div>
@@ -664,18 +701,34 @@
 		<a href="#" class="soc-pill link" target="_blank"><span style="color: yellow;">🎵</span> TikTok</a>
 		<a href="#" class="soc-pill link" target="_blank"><span style="color: lightblue;">📘</span> Facebook</a>
         <a href="#" class="soc-pill link" target="_blank"><span style="color: red;">▶️</span> YouTube</a>
-		<a href="https://t.me/picocardsit" class="soc-pill link" target="_blank"><span style="color: lightblue;">✈︎</span> Telegram</a>
+		<a href="https://t.me/+XEBY6Kzvv3U0YTc0" class="soc-pill link" target="_blank"><span style="color: lightblue;">✈︎</span> Telegram</a>
       </div>
     </div>
   </section>
 
   <!-- FOOTER -->
   <footer>
-    <p>&copy; 2026 <strong>PicoCards</strong> &nbsp;·&nbsp; Via Giovanni Pico 21, Mirandola (MO) 41037</p>
-    <p><strong><span style="color: pink;">Every card tells a story</span>&nbsp;&nbsp;</p>
+    <p>&copy; 2026 <strong>PicoCards</strong> &nbsp;·&nbsp; Via Giovanni Pico 21, Mirandola (MO) 41037</p><br>
+    <p><strong><span style="color: pink;">Every card tells a story</span></p>
   </footer>
 
 </div><!-- /wrapper -->
+
+<!-- ══════════════════════════════════════════
+     MUSICA DI SOTTOFONDO
+     Sostituisci "tua-musica.mp3" con il nome
+     del tuo file audio (mettilo nella stessa
+     cartella di questo index.html).
+     Puoi usare anche un URL completo:
+       src="https://esempio.com/canzone.mp3"
+     Formati supportati: .mp3  .ogg  .wav
+════════════════════════════════════════════ -->
+<audio id="bg-music" loop preload="auto" playsinline webkit-playsinline>
+  <source src="music.mp3" type="audio/mpeg">
+</audio>
+
+<!-- Pulsante musica (in basso a destra) -->
+<button id="music-btn" title="Musica on/off" aria-label="Attiva/Disattiva musica">🎵</button>
 
 <script>
 /* ── CANVAS: floating card particles ───────────────── */
@@ -763,6 +816,61 @@
     });
   }, { threshold: 0.1, rootMargin: '0px 0px -30px 0px' });
   els.forEach(el => io.observe(el));
+})();
+
+/* ── MUSICA DI SOTTOFONDO (autoplay + mobile) ───────── */
+(function () {
+  const audio = document.getElementById('bg-music');
+  const btn   = document.getElementById('music-btn');
+  let playing = false;
+  let unlocked = false;
+
+  audio.volume = 0.35; // 0.0 → 1.0
+
+  function startMusic() {
+    const p = audio.play();
+    if (p !== undefined) {
+      p.then(() => {
+        playing = true;
+        btn.textContent = '🔊';
+        btn.classList.add('playing');
+      }).catch(() => {
+        // Bloccato dal browser: aspetta interazione
+      });
+    } else {
+      playing = true;
+      btn.textContent = '🔊';
+      btn.classList.add('playing');
+    }
+  }
+
+  // 1) Tentativo immediato su desktop
+  window.addEventListener('load', startMusic);
+
+  // 2) Mobile: sblocca l'audio al PRIMO tocco/click ovunque nella pagina
+  //    (iOS/Android richiedono che audio.play() sia chiamato dentro un evento utente)
+  const EVENTS = ['touchend', 'touchstart', 'click', 'keydown', 'scroll'];
+  function unlock() {
+    if (unlocked) return;
+    unlocked = true;
+    if (!playing) startMusic();
+    EVENTS.forEach(ev => document.removeEventListener(ev, unlock));
+  }
+  EVENTS.forEach(ev => document.addEventListener(ev, unlock, { passive: true, once: true }));
+
+  // 3) Pulsante toggle manuale
+  btn.addEventListener('click', function (e) {
+    e.stopPropagation();
+    unlocked = true;
+    if (playing) {
+      audio.pause();
+      playing = false;
+      btn.textContent = '🎵';
+      btn.classList.remove('playing');
+    } else {
+      startMusic();
+    }
+  });
 })();
 </script>
 
